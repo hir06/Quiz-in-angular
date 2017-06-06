@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html ng-app="QuizApp">
+
+<head>
+    <title>Quiz</title>
+    <!--Meta-->
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta http-equiv='Cache-control' content='no-cache' />
+    <meta http-equiv='Expires' content='-1' />
+    <meta http-equiv='pragma' content='no-cache' />
+
+
+    <!--FAVICON-->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+    <!--CSS-->
+    <link href="css/common.css" rel="stylesheet" />
+    <link href="css/materialize.min.css" rel="stylesheet" />
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+
+<body>
+    <div class="page-wrap" ng-controller="dashBoardController as qvm">
+
+        <header>
+            <!--Polygon shaper side nav backbground-->
+        </header>
+        <!--Navigation and login Sidebar-->
+        <div class="leftside-nav">
+            <a href="#/" class="onepush-logo"><i class="material-icons">dashboard</i><h4>Quiz</h4></a><br />
+
+            <div class="login-detail onepush-desc" ng-if="qvm.login" style=" margin-left:3rem">
+                <img src="Images/user.png" alt="no-image" class="user-img"><br/>
+                <div class="userData">Name: </div>{{qvm.userName}}<br/>
+                <div class="userData">Email: </div> {{qvm.userEmail}}<br/>
+                <div class="userData">Phone: </div> {{qvm.userPhone}}<br/>
+            </div>
+
+
+
+
+
+        </div>
+
+
+
+
+        <!--This is where different route's view are displayed-->
+        <!--<div ng-view></div>-->
+        <!--here displaying data-->
+        <div class="portfolios-container" ng-if="qvm.login">
+
+
+            <div class="portfolios-scroll">
+
+                <div ng-repeat="ques in qvm.data">
+                    <div class="portfolio-item list" ng-class="qvm.LayoutClass" ng-show="qvm.queState[ques.id]">
+
+
+                        <div class="portfolio-texts">
+                            <h5>{{ques.id+1}}.&nbsp;&nbsp;{{ques.que}}</h4>
+
+                                <div class="long-text">
+
+                                    A.<input class="with-gap" name="{{'group'+ques.id}}" type="radio" id="{{ques.id + 'A'}} " ng-click="qvm.saveAns($event)" ng-disabled="qvm.showAnswer" />
+                                    <label for="{{ques.id + 'A'}}">{{ques.options.A}}</label> B.
+
+                                    <input class="with-gap" name="{{'group'+ques.id}}" type="radio" id="{{ques.id + 'B'}} " ng-click="qvm.saveAns($event)" ng-disabled="qvm.showAnswer" />
+                                    <label for="{{ques.id + 'B'}}">{{ques.options.B}}</label> C.
+
+                                    <input class="with-gap" name="{{'group'+ques.id}}" type="radio" id="{{ques.id + 'C'}} " ng-click="qvm.saveAns($event)" ng-disabled="qvm.showAnswer" />
+                                    <label for="{{ques.id + 'C'}}">{{ques.options.C}}</label> D.
+
+                                    <input class="with-gap" name="{{'group'+ques.id}}" type="radio" id="{{ques.id + 'D'}} " ng-click="qvm.saveAns($event)" ng-disabled="qvm.showAnswer" />
+                                    <label for="{{ques.id + 'D'}}">{{ques.options.D}}</label>
+
+                                </div>
+                                <div class="onepush-desc" ng-if="qvm.showAnswer">Corect Answer:<span>{{ques.answer}}</span></div>
+                        </div>
+
+                        <div class="clearFloats"></div>
+                    </div>
+
+
+                </div>
+                <input type="button" class="btn btn-primary" value="Submit" ng-click="qvm.showAllAnswer()" ng-if="qvm.queState[4] && !qvm.queState[1]" />
+                <input type="button" class="btn btn-primary" value="Graph" ng-click="qvm.showGraph()" ng-if="qvm.showAnswer" />
+            </div>
+
+
+
+
+        </div>
+        <div class="fixed-action-btn  horizontal" style="bottom: 75px; right: 35px;" ng-if="!qvm.login">
+            <a class="btn-floating btn-large waves-effect waves-light light-blue darken-4" ng-click="qvm.openPushPopUp()">
+                <i class="large material-icons">add</i>
+            </a>
+        </div>
+
+        <div>
+            <!--login Modal -->
+            <div id="onepush-modal" class="modal">
+                <div class="modal-content">
+                    <h4>Login</h4>
+                    <div class="row">
+                        <form class="col s12" name="loginForm">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">class</i>
+                                    <input id="icon_prefix" type="text" class="validate" ng-model="qvm.userName" name="userName" required>
+                                    <label for="icon_prefix">Name</label>
+                                    <p ng-show="loginForm.userName.$invalid && !loginForm.userName.$pristine" class="help-block">Your name is required!.</p>
+                                </div>
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">email</i>
+                                    <input id="icon_prefix" type="email" class="validate" ng-model="qvm.userEmail" name="userEmail" required>
+                                    <label for="icon_prefix">Email</label>
+                                    <p ng-show="loginForm.userEmail.$invalid && !loginForm.userEmail.$pristine" class="help-block">Please enter valid email address.</p>
+                                </div>
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">stay_current_portrait</i>
+                                    <input id="icon_prefix" type="text" class="validate" ng-model="qvm.userPhone" name="userPhone" ng-pattern="/^[0-9]{10}$/" ng-minlength="10" ng-maxlength="10" required>
+                                    <label for="icon_prefix">Phone No:</label>
+                                    <p ng-show="loginForm.userPhone.$invalid && !loginForm.userPhone.$pristine && loginForm.userPhone.$error.pattern" class="help-block">Please provide your 10 digit mobile number.</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="waves-effect waves-light btn blue" ng-disabled="loginForm.$invalid" ng-click="qvm.loginUser()"><i class="material-icons left">done</i>Login</a>
+                    <a class="modal-action modal-close waves-effect waves-light btn red"><i class="material-icons left">arrow_back</i>Cancel </a>
+                </div>
+            </div>
+
+            <!--Graph modal-->
+            <div id="graph-modal" class="modal" style="max-height:80%;">
+                <div class="modal-content" style="padding-bottom:0px;">
+                    <h4>Graph</h4>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div id="container" style="min-width: 310px; height: 341px; margin: 0 auto"></div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-light btn blue" style="width:100%"><i class="material-icons left">done</i>Ok</a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    </div>
+    <!--<footer class="site-footer">
+        <div class="content">
+            <span class="copyright"> © </span><span>
+                2017 <a href="https://github.com/hir06" target="_blank">
+                 HiralParmar
+                </a>
+                Media, Inc. All rights unfortunately not reserved.
+            </span>
+        </div>
+    </footer>-->
+    <!--loader to be used while calling http service to get json data-->
+    <!--<div ng-show="loaderVisibility" ng-include="'/ng_app/common/Templates/loader.html'"></div>-->
+    <!--<div ng-show="loaderVisibility">
+        <div id="LoaderAnime">
+            <div>
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <span>Just a moment...</span>
+            </div>
+        </div>
+    </div>-->
+
+
+
+
+    <!--JS-->
+    <script src="js_setup/jquery-2.1.1.min.js"></script>
+    <script src="js_setup/angular.js"></script>
+    <script src="js_setup/angular-route.js"></script>
+
+    <script src="js_setup/materialize.min.js"></script>
+
+
+    <script src="ng_app/App.js"></script>
+    <script src="ng_app/common/AppService.js"></script>
+    <script src="ng_app/common/Constants.js"></script>
+
+    <!--OnePush-->
+    <script src="ng_app/components/portfolios/dashBoard.service.js"></script>
+    <script src="ng_app/components/portfolios/dashBoard.controller.js"></script>
+    <script src="ng_app/components/portfolios/dashBoard.module.js"></script>
+
+    <!--graph-->
+
+    <!--<script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>-->
+    <script src="js_setup/highcharts.js"></script>
+    <script src="js_setup/data.js"></script>
+
+</body>
+>
+
+</html>

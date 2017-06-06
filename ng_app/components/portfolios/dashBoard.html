@@ -1,0 +1,40 @@
+<!--<div class="layout-btns-grid">
+    <h6>Choose a layout</h6>
+    <i class="material-icons" ng-class="{'active':portfoliosVM.LayoutClass=='grid'}" ng-click="portfoliosVM.setLayout('grid')">view_module</i>
+
+    <i class="material-icons" ng-class="{'active':portfoliosVM.LayoutClass=='list'}" ng-click="portfoliosVM.setLayout('list')">storage</i>
+</div>
+
+<div class="portfolios-container">
+
+   
+    <form class="col s12">
+        <div class="row">
+            <div class="input-field col s12 m12 l4">
+                <h4 class="zero-margin">Portfolios</h4> 
+            </div>
+            <div class="input-field col col s12 m12 l8">
+                <i class="material-icons prefix">search</i>
+                <input id="query" type="text" ng-model="portfoliosVM.query" value="{{portfoliosVM.query}}" class="autocomplete">
+                <label for="query">Search</label>
+                
+            </div>
+        </div>
+    </form>
+    <div class="portfolios-scroll">
+
+        <div ng-repeat="portfolio in portfoliosVM.portfolios | filter:portfoliosVM.query" onload="Parent = portfoliosVM" ng-include="'ng_app/components/portfolios/Partials/portfolio-item.html'" ></div>
+
+    </div>
+
+
+
+    <div class="fixed-action-btn  horizontal" style="bottom: 75px; right: 35px;">
+        <a class="btn-floating btn-large waves-effect waves-light light-blue darken-4" ng-click="portfoliosVM.openPushPopUp()">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
+</div>
+
+<div ng-include="'/ng_app/components/portfolios/Partials/onepush-modal.html'" onload="Parent = portfoliosVM;"></div>-->
+
